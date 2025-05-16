@@ -11,7 +11,7 @@ import com.padelflow.padelapp.padelapp.repositories.CourtRepository;
 // El Service es una capa intermedia para manejar lógica de negocio
 @Service
 public class CourtService {
-    
+
     private final CourtRepository courtRepository;
 
     @Autowired
@@ -21,6 +21,10 @@ public class CourtService {
 
     public List<Court> getAllCourts(){
         return courtRepository.findAll();
+    }
+
+    public Court saveCourt(Court court){
+        return courtRepository.save(court);
     }
     
 }
