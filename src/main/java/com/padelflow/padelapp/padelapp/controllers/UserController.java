@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.padelflow.padelapp.padelapp.entities.User;
 import com.padelflow.padelapp.padelapp.models.request.InfoUserNuevo;
+import com.padelflow.padelapp.padelapp.models.request.LoginRequest;
 import com.padelflow.padelapp.padelapp.models.response.GenericResponse;
 import com.padelflow.padelapp.padelapp.models.response.InfoUserResponse;
+import com.padelflow.padelapp.padelapp.models.response.LoginResponse;
 import com.padelflow.padelapp.padelapp.services.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,5 +41,11 @@ public class UserController {
     public ResponseEntity<List<InfoUserResponse>> getAllUsers(){
         List<InfoUserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
+        LoginResponse response = userService.loginUser(loginRequest);
+        return ResponseEntity.ok(response);
     }
 }

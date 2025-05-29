@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.padelflow.padelapp.padelapp.entities.User;
 import com.padelflow.padelapp.padelapp.models.request.InfoUserNuevo;
+import com.padelflow.padelapp.padelapp.models.request.LoginRequest;
 import com.padelflow.padelapp.padelapp.models.response.GenericResponse;
 import com.padelflow.padelapp.padelapp.models.response.InfoUserResponse;
+import com.padelflow.padelapp.padelapp.models.response.LoginResponse;
 import com.padelflow.padelapp.padelapp.repositories.UserRepository;
 
 @Service
@@ -61,6 +63,23 @@ public class UserService {
         }
             
         ).collect(Collectors.toList());
+    }
+
+    public LoginResponse loginUser(LoginRequest request){
+        User user = userRepository.findByEmail(request.email)
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        
+        //Comparar contraseña con la guardada
+        if(!passwordEncoder.matches(request.password, user.getPassword())){
+            throw new RuntimeException("Contraseña incorrecta");
+        }
+
+        LoginResponse response = new LoginResponse();
+        response.setMessage("Login exitoso");
+        response.setUserId(user.getUserId());
+        response.setIsAdmin(user.getIsAdmin());
+
+        return response;
     }
 
 }

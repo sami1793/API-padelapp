@@ -15,7 +15,10 @@ public class Reservation {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long reservationId;
 
-    private String customerName;
+    @ManyToOne  //Muchas reservas para un solo cliente
+    @JoinColumn(name = "user_id"//nombre de la columna en la tabla reservation
+    )
+    private User user;
 
     private LocalDateTime startTime;
 
@@ -37,12 +40,14 @@ public class Reservation {
         this.reservationId = reservationId;
     }
 
-    public String getCustomerName(){
-        return customerName;
+
+
+    public User getUser() {
+        return user;
     }
 
-    public void setCustomerName(String customerName){
-        this.customerName = customerName;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getStarTime(){

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.padelflow.padelapp.padelapp.entities.Reservation;
 import com.padelflow.padelapp.padelapp.models.request.InfoReservaNueva;
+import com.padelflow.padelapp.padelapp.models.request.ReservationRequest;
 import com.padelflow.padelapp.padelapp.models.response.GenericResponse;
 import com.padelflow.padelapp.padelapp.services.ReservationService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +29,9 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<GenericResponse> createReservation(@RequestBody InfoReservaNueva info){ 
+    public ResponseEntity<GenericResponse> createReservation(@RequestBody ReservationRequest reservationRequest){ 
 
-        GenericResponse response = reservationService.createReservation(info);
+        GenericResponse response = reservationService.createReservation(reservationRequest);
         return ResponseEntity.ok(response);
     }
 
