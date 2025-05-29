@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.padelflow.padelapp.padelapp.entities.User;
@@ -15,20 +16,25 @@ import com.padelflow.padelapp.padelapp.repositories.UserRepository;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public GenericResponse createUser(InfoUserNuevo info){
         User user = new User();
         user.setUsername(info.username);
         user.setEmail(info.email);
-        user.setPassword(info.password);
         user.setName(info.name);
         user.setLastName(info.lastName);
         user.setIsAdmin(false);
+
+        //Encriptar contraseña antes de guardarla
+        String hashedPassword = passwordEncoder.encode(info.password);
+        user.setPassword(hashedPassword); 
 
         //Guardar
         userRepository.save(user);
