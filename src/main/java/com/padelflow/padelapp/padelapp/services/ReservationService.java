@@ -72,7 +72,7 @@ public class ReservationService {
         return response;
     }
 
-    public List<Reservation> getAllCourts (){
+    public List<Reservation> getAllReservations (){
         return reservationRepository.findAll();
     }
 }
